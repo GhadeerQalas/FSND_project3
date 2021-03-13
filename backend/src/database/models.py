@@ -5,6 +5,7 @@ import json
 
 database_filename = "database.db"
 project_dir = os.path.dirname(os.path.abspath(__file__))
+#project_dir = 'postgres://postgres:Ghadeer**18@localhost:5433/'
 database_path = "sqlite:///{}".format(os.path.join(project_dir, database_filename))
 
 db = SQLAlchemy()

@@ -3,13 +3,13 @@ from os import abort
 
 from flask import request, _request_ctx_stack
 from functools import wraps
-from jose import jwt
+from jose import JWT
 from urllib.request import urlopen
 
 
 AUTH0_DOMAIN = 'fsnd-ghadeer-dev.us.auth0.com'
 ALGORITHMS = ['RS256']
-API_AUDIENCE = 'coffeeshop'
+API_AUDIENCE = 'https://127.0.0.1:5000'
 
 ## AuthError Exception
 '''
@@ -111,7 +111,7 @@ def verify_decode_jwt(token):
     """
     url = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
     jsonUrl = json.loads(url.read())
-    check_header = jwt.get_unverified_header(token)
+    check_header = JWT.get_unverified_header(token)
     rsa_key = {}
     if 'kid' not in check_header:
         raise AuthError({
@@ -123,14 +123,14 @@ def verify_decode_jwt(token):
             rsa_key = {'kty': key['kty'], 'kid': key['kid'], 'use': key['use'], 'n': key['n'], 'e': key['e']}
     if rsa_key:
         try:
-            payload_jwt = jwt.decode(token, rsa_key, algorithms=ALGORITHMS, audience='coffeeshop', issuer='https://' + AUTH0_DOMAIN + '/')
+            payload_jwt = JWT.decode(token, rsa_key, algorithms=ALGORITHMS, audience='coffeeshop', issuer='https://' + AUTH0_DOMAIN + '/')
             return payload_jwt
 
-        except jwt.ExpiredSignatureError:
+        except JWT.ExpiredSignatureError:
             raise AuthError({
                 'code': 'token_expired_Signature_Error',
                 'description': 'Expired Signature Error.'}, 401)
-        except jwt.JWTClaimsError:
+        except JWT.JWTClaimsError:
             raise AuthError({'code': 'invalid_claims',
                 'description': 'Invalid claims. JWTClaimsError'}, 401)
         except Exception:

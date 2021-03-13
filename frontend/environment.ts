@@ -7,8 +7,8 @@ export const environment = {
   apiServerUrl: 'http://127.0.0.1:5000', // the running FLASK api server url
   auth0: {
     url: 'fsnd-ghadeer-dev.us', // the auth0 domain prefix
-    audience: 'https://127.0.0.1:5000', // the audience set for the auth0 app
-    clientId: 'X4PwOT8geXcCm0LcQvGysYLH12rQIkBY', // the client id generated for the auth0 app
-    callbackURL: 'https://localhost:8100', // the base url of the running ionic application.
+    audience: 'coffeeshop', // the audience set for the auth0 app
+    clientId: 'SPW5P0xFc2DqXcmkSuFwQ4Uiy22M5sSj', // the client id generated for the auth0 app
+    callbackURL: 'http://localhost:8100', // the base url of the running ionic application. 
   }
 };
