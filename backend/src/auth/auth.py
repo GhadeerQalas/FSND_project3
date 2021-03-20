@@ -111,7 +111,7 @@ def verify_decode_jwt(token):
     """
     url = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
     jsonUrl = json.loads(url.read())
-    check_header = JWT.get_unverified_header(token)
+    check_header = jwt.get_unverified_header(token)
     rsa_key = {}
     if 'kid' not in check_header:
         raise AuthError({
@@ -123,14 +123,14 @@ def verify_decode_jwt(token):
             rsa_key = {'kty': key['kty'], 'kid': key['kid'], 'use': key['use'], 'n': key['n'], 'e': key['e']}
     if rsa_key:
         try:
-            payload_jwt = JWT.decode(token, rsa_key, algorithms=ALGORITHMS, audience='coffeeshop', issuer='https://' + AUTH0_DOMAIN + '/')
+            payload_jwt = jwt.decode(token, rsa_key, algorithms=ALGORITHMS, audience='coffeeshop', issuer='https://' + AUTH0_DOMAIN + '/')
             return payload_jwt
 
-        except JWT.ExpiredSignatureError:
+        except jwt.ExpiredSignatureError:
             raise AuthError({
                 'code': 'token_expired_Signature_Error',
                 'description': 'Expired Signature Error.'}, 401)
-        except JWT.JWTClaimsError:
+        except jwt.JWTClaimsError:
             raise AuthError({'code': 'invalid_claims',
                 'description': 'Invalid claims. JWTClaimsError'}, 401)
         except Exception:
